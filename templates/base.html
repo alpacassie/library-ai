@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Index — Cassie{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Fraunces:opsz,wght@9..144,400;9..144,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <header class="masthead">
+    <div class="masthead__left">
+      <a href="{{ url_for('index') }}" class="mark" aria-label="Home">
+        <span class="mark__glyph">✺</span>
+      </a>
+      <div class="masthead__title">
+        <div class="eyebrow">Personal database of notices</div>
+        <h1 class="wordmark">Index</h1>
+      </div>
+    </div>
+    <div class="masthead__right">
+      <span class="note-tag">new here?</span>
+      <a class="explore-link" href="{{ url_for('about') }}">About ↗</a>
+    </div>
+  </header>
+
+  <nav class="tabs" aria-label="Categories">
+    {% for cat in categories %}
+      {% set href = url_for('index') if cat.slug == 'everything' else url_for('category', slug=cat.slug) %}
+      <a class="tab {% if active == cat.slug %}tab--active{% endif %}" href="{{ href }}">{{ cat.label }}</a>
+    {% endfor %}
+    <span class="tab tab--ghost">…</span>
+    <span class="tab tab--search">Search</span>
+  </nav>
+
+  <div class="filter-row">
+    <span class="filter">▸ Filter</span>
+  </div>
+
+  <main class="main">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="foot">
+    <span>© {{ 2026 }} · Cassie Zhang</span>
+    <span>Pixel-bloomed in San Francisco</span>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% if items %}
+    <section class="grid">
+      <article class="tile tile--note">
+        <div class="tile__label">Note:</div>
+        <div class="tile__title">A personal Index of pixel-pressed flowers, begun April 2026. More categories are blooming soon.</div>
+        <div class="tile__meta">{{ items|length }} specimens</div>
+      </article>
+
+      {% for item in items %}
+        <article class="tile tile--tone-{{ item.tone }}">
+          <div class="tile__media">
+            <img src="{{ url_for('static', filename='images/flowers/' ~ item.slug ~ '.png') }}" alt="{{ item.name }}">
+          </div>
+          <div class="tile__body">
+            <div class="tile__kicker">{{ item.category }} · Nº {{ '%02d'|format(loop.index) }}</div>
+            <h2 class="tile__name">{{ item.name }}</h2>
+            <div class="tile__latin">{{ item.latin }}</div>
+            <p class="tile__note">{{ item.note }}</p>
+          </div>
+          <div class="tile__foot">
+            <span>{{ item.date }}</span>
+            <span class="tile__arrow">↗</span>
+          </div>
+        </article>
+      {% endfor %}
+    </section>
+  {% else %}
+    <section class="empty">
+      <div class="empty__eyebrow">Nothing here yet</div>
+      <h2 class="empty__title">This shelf is empty — for now.</h2>
+      <p class="empty__body">A collection of <em>{{ active }}</em> is being assembled. In the meantime, browse <a href="{{ url_for('category', slug='flowers') }}">Flowers</a>.</p>
+    </section>
+  {% endif %}
+{% endblock %}
